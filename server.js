@@ -6,11 +6,12 @@ const socketIO              = require("socket.io");
 const http                  = require("http");
 const {Users}               = require("./server/utils/users");
 const {Queue}               = require("./server/utils/queue");
-
+const {isRealString}        = require("./server/utils/validation");
 var app                     = express();
 var server                  = http.createServer(app);
 var io                      = socketIO(server);
 var queue                   = new Queue();
+var users                   = new Users();
  queue.add("ndJv_VZpzP8");
  queue.add("MOZ_4ytjMSw");
 
@@ -29,16 +30,22 @@ io.on('connect', function(socket){
 
     
     socket.on('connection', function(params, callback){                         //Runs on client page load for watch.html
-        if(queue.front()){
-            console.log("sending front list video to new user")
-            socket.emit('current', queue.front().id);
-            console.log("sending video list to new user")
-            socket.emit('update_list', queue.list());
-            //Importantly gives users options: If the users want to start over, new client starts video. If the new client wants to catch up, other client starts video
-            socket.broadcast.emit('pause', 0);                                  //New user has joined, pause all clients
+        if(!isRealString(params.name)){
+            return callback("Name is required.");
+        }else{
+            users.addUser(socket.id, params.name);
+            io.emit('update_userlist', users.getUserList());
+            if(queue.front()){
+                console.log(`sending front list video to ${params.name}`)
+                socket.emit('current', queue.front().id);
+                console.log(`sending video list to ${params.name}`)
+                socket.emit('update_list', queue.list());
+                //Importantly gives users options: If the users want to start over, new client starts video. If the new client wants to catch up, other client starts video
+                socket.broadcast.emit('pause', 0);                                  //New user has joined, pause all clients
+            }
+            else
+                console.log("No video in queue, idling...")
         }
-        else
-            console.log("No video in queue, idling...")
     });
     
     socket.on('player-change', function(status) {
@@ -89,7 +96,11 @@ io.on('connect', function(socket){
     });
     
     socket.on('disconnect', function(){
-        console.log("Client disconnected");
+        var user = users.removeUser(socket.id)
+        if(user){
+            io.emit('update_userlist', users.getUserList());
+            console.log(`Client ${user.name} disconnected`);
+        }
     });
 });
 

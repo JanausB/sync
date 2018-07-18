@@ -118,9 +118,41 @@ $('#test').on('click', function(){
    $('#next').val('')
 });
 
-$( document ).ready(function() {
-    socket.emit('connection');
+socket.on('connect', function(){
+    console.log("Connected to server");
+    var params= jQuery.deparam(window.location.search);
+    
+    socket.emit('connection', params, function(err){
+        if(err){
+           alert(err);
+           window.location.href='/';
+       }else{
+           console.log("Connection to server established");
+           
+       }
+    });
 });
+
+socket.on('update_userlist', function (list) {
+    var params= jQuery.deparam(window.location.search);
+    var active = '';
+    if(params)
+        active = params.name;
+    var html = '<div class="list-group">';
+    if(!list)                                                                   //list is empty
+        html = '<li class="list-group-item active">No users...somehow. You should let jay know this is broken!</li>';
+    else{
+        for(var i = 0; i< list.length; i++){
+            if(list[i] == active)
+                html +=`<li class="list-group-item active"><h3>${list[i]}</h3></li>`
+            else
+                html +=`<li class="list-group-item"><h3>${list[i]}</h3></li>`
+        }
+        html += "</div>";
+    }
+    // console.log("updating user list", html);
+    $("#user_list").html(html);
+})
 
 socket.on('current', function(id) {
     if(id)
@@ -154,7 +186,7 @@ socket.on('next', function(videoId){
 socket.on('update_list', function(list) {
     var html = '<div class="list-group">';
     if(!list)                                                                   //list is empty
-        html = '<li class="list-group-item active">No videos in the queue, try submitting one!</li>';
+        html += '<li class="list-group-item active">No videos in the queue, try submitting one!</li>';
     else{
     for(var i = 0; i< list.length; i++){
         if(i == 0)
