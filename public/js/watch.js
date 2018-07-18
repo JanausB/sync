@@ -147,7 +147,7 @@ socket.on('play', function(time) {
 })
 
 socket.on('next', function(videoId){
-    if(videoId)
+    if(videoId && videoId != player.j.videoData.video_id)
         change(videoId);
 });
 
