@@ -185,17 +185,31 @@ socket.on('next', function(videoId){
 
 socket.on('update_list', function(list) {
     var html = '<div class="list-group">';
-    if(!list)                                                                   //list is empty
+    if(!list[0])                                                                   //list is empty
         html += '<li class="list-group-item active">No videos in the queue, try submitting one!</li>';
     else{
-    for(var i = 0; i< list.length; i++){
-        if(i == 0)
-            html +=`<li class="list-group-item active"><h3>${list[i].title}</h3><img src="${list[i].img}" class="img-rounded" alt="Cinque Terre"></li>`
-        else
-            html +=`<li class="list-group-item"><h3>${list[i].title}</h3><img src="${list[i].img}" class="img-rounded" alt="Cinque Terre"></li>`
+        for(var i = 0; i< list.length; i++){
+            if(i == 0)
+                html +=`
+                <li class="list-group-item active">
+                    <h6>Currently watching:</h6>
+                    <div class="row">
+                        <div class="col-lg-3 queue-item-col">
+                            <img src="${list[i].img}" class="img-responsive img-rounded" alt="Cinque Terre">
+                        </div>
+                        <div class="col-lg-9 queue-item-col">
+                            <h3>${list[i].title}</h3>
+                        </div>
+                    </div>
+                </li>`
+            else if(i == 1)
+                html +=`<li class="list-group-item"><h6>Up Next:</h6><div class="row"><div class="col-lg-3 queue-item-col"><img src="${list[i].img}" class="img-responsive img-rounded" alt="Cinque Terre"></div><div class="col-lg-9 queue-item-col"><h3>${list[i].title}</h3></div></div></li>`
+            else
+                html +=`<li class="list-group-item"><div class="row"><div class="col-lg-3 queue-item-col"><img src="${list[i].img}" class="img-responsive img-rounded" alt="Cinque Terre"></div><div class="col-lg-9 queue-item-col"><h3>${list[i].title}</h3></div></div></li>`
+        }
     }
     html += "</div>";
-    }
+    console.log(html);
     $("#queue_list").html(html);
 });
 

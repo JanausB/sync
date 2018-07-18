@@ -11,3 +11,112 @@
     width:100%;
     position:absolute;
 }
+
+html {
+    height: 100%;
+}
+body {
+    min-height: 100%;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    
+    background: #8E0E00;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(bottom, #1F1C18, #8E0E00);
+    background: -moz-linear-gradient(bottom, #1F1C18, #8E0E00);
+    background: -o-linear-gradient(bottom, #1F1C18, #8E0E00);
+    background: linear-gradient(to top, #1F1C18, #8E0E00);  /* Chrome 10-25, Safari 5.1-6 */ /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.full-height{
+    min-height: 100% !important;
+    height: 100% !important;
+}
+
+.parent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100% !important;
+    height: 100% !important;
+}
+
+
+.no-side-padding{
+    padding-left: 0!important;
+    padding-right: 0!important;
+}
+
+.watch__well{
+    padding: 0!important;
+    background-color: #302929;
+    border-color: #302929;
+    border-radius: 0;
+    
+}
+
+#user_well{
+    padding-left: 15px!important;
+
+}
+
+#test{
+    color: #000;
+}
+
+.title_well{
+    margin-bottom: 0;
+    color: #fff;
+    border-color: #504848;
+    background-color: #504848;
+    border-radius: 0;
+    text-align: center;
+}
+
+#user_list li{
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-radius: 0;
+    border-color: #AA3939;
+    /*border-left:none;*/
+    /*border-right:none;*/
+}
+
+#user_list li.active{
+    background-color: #AA3939;
+    color:#fff;
+}
+
+#user_list li>h3{
+    margin: 0;
+}
+
+#video_well{
+    padding-right: 15px!important;
+    
+}
+
+#add_form input{
+    border-radius: 0;
+}
+
+#add_form button{
+    border-radius: 0;
+}
+
+#queue_list li{
+    border-color: #AA3939;
+    border-radius: 0;
+}
+
+#queue_list li.active{
+    background-color: #AA3939;
+    color:#fff;
+}
+.queue-item-col{
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+}
+
+
+

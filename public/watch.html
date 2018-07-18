@@ -9,34 +9,37 @@
     <link rel="stylesheet" href="/css/main.css" type="text/css" />
     <title>Sync with your friends</title>
 </head>
-    <body>
-        <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
-        <div class = "row">
-            <div class="col-lg-2">
-                <div id="user_list"></div>
-            </div>
-            <div class="col-lg-8">
-                <div class="video-responsive">
-                    <div id="player" ></div>
+    <body class="watch__body full-height">
+            <div class = "row full-height no-side-padding full-height">
+                <div class="col-lg-2 no-side-padding full-height" id="user_well">
+                    <div class="well watch__well title_well">
+                        <h3 class="user_list_title">Currently Watching</h3>
+                    </div>
+                    <div class="well watch__well full-height">
+                        <div id="user_list"></div>
+                    </div>
+                    
+                </div>
+                <div class="col-lg-7 parent no-side-padding">
+                    <div class="video-responsive">
+                        <div id="player" ></div>
+                    </div>
+                </div>
+                <div class="col-lg-3 no-side-padding full-height" id="video_well">
+                    <div class="well watch__well title_well">
+                            <h1>Video Queue</h1>
+                            <div id="add_form">
+                                <input class="form-control" type="text" id="next" placeholder="Paste full youtube link"/>
+                                <button class="btn btn-block" id='test'>Add to Queue</button>
+                            </div>
+                        </div>
+                    <div class="well watch__well pre-scrollable full-height" id="#queue_well">
+                        <div id="queue_list"></div>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-2">
-                <input type="text" id="next"/>
-                <button id='test'>Add to Queue</button>
-                <div id="queue_list"></div>
-            </div>
-        </div>
-        
-        
-        
-        
-
-        
-        
-        
         <script src="/socket.io/socket.io.js"></script>
         <script type="text/javascript" src="/js/watch.js"></script>
         <script type="text/javascript" src="/js/libs/deparam.js"></script>
-        
   </body>
 </html>

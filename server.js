@@ -12,8 +12,7 @@ var server                  = http.createServer(app);
 var io                      = socketIO(server);
 var queue                   = new Queue();
 var users                   = new Users();
- queue.add("ndJv_VZpzP8");
- queue.add("MOZ_4ytjMSw");
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -39,12 +38,13 @@ io.on('connect', function(socket){
                 console.log(`sending front list video to ${params.name}`)
                 socket.emit('current', queue.front().id);
                 console.log(`sending video list to ${params.name}`)
-                socket.emit('update_list', queue.list());
+                // socket.emit('update_list', queue.list());
                 //Importantly gives users options: If the users want to start over, new client starts video. If the new client wants to catch up, other client starts video
                 socket.broadcast.emit('pause', 0);                                  //New user has joined, pause all clients
             }
             else
                 console.log("No video in queue, idling...")
+        socket.emit('update_list', queue.list());
         }
     });
     
