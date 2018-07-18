@@ -5,26 +5,30 @@
         <link rel="stylesheet" href="/css/styles.css" type="text/css" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+        <link rel="stylesheet" href="/css/index.css" type="text/css" />
         <title>Join | Sync</title>
     </head>
-    <body class='centered-form'>
-        <div class="centered-form__form">
-            <form action="/watch.html" >
-                <div class="form-field">
-                    <h3>Join a Chat</h3>
+    <body class='parent'>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div class="well">
+                    <form action="/watch.html" >
+                        <h1><i class="fas fa-sync-alt"></i>Sync</h1>
+                        <div class="form-field">
+                            <label for="">Display Name</label>
+                            <input type="text" name="name" autofocus/>
+                        </div>
+                        <div class="form-field">
+                            <button>Join</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-field">
-                    <label for="">Display Name</label>
-                    <input type="text" name="name" autofocus/>
-                </div>
-                <!--<div class="form-field">-->
-                <!--    <label for="">Room Name</label>-->
-                <!--    <input type="text" name="room"/>-->
-                <!--</div>-->
-                <div class="form-field">
-                    <button>Join</button>
-                </div>
-            </form>
+            </div>
+            <div class="col-md-4"></div>
+            
         </div>
         
     </body>

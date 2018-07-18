@@ -1,0 +1,22 @@
+html {
+    height: 100%;
+}
+body {
+    min-height: 100%;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    
+    background: #8E0E00;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(bottom, #1F1C18, #8E0E00);
+    background: -moz-linear-gradient(bottom, #1F1C18, #8E0E00);
+    background: -o-linear-gradient(bottom, #1F1C18, #8E0E00);
+    background: linear-gradient(to top, #1F1C18, #8E0E00);  /* Chrome 10-25, Safari 5.1-6 */ /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.parent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100% !important;
+    height: 100% !important;
+}
