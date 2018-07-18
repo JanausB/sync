@@ -11,17 +11,17 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 // 3. This function creates an <iframe> (and YouTube player)
 //    after the API code downloads.
 var player;
-// function onYouTubeIframeAPIReady() {
-// player = new YT.Player('player', {
-//   height: '390',
-//   width: '640',
-//   videoId: '2K4bGTtamJ4',
-//   events: {
-//     'onReady': onPlayerReady,
-//     'onStateChange': onPlayerStateChange
-//   }
-// });
-// }
+function onYouTubeIframeAPIReady() {                                            //Dummy player here both to establish the template and generate an initial value for the player var
+    player = new YT.Player('player', {                                          //Deletion of this segment will lead to erroring out when the 
+      height: '390',
+      width: '640',
+      videoId: '2K4bGTtamJ4',
+      events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+      }
+    });
+}
 
 // 4. The API will call this function when the video player is ready.
 function onPlayerReady(event) {
@@ -37,10 +37,10 @@ function onPlayerReady(event) {
 //    the player should play for six seconds and then stop.
 var done = false;
 function onPlayerStateChange(event) {
-    if (event.data == YT.PlayerState.PLAYING && !done) {
-      setTimeout(stopVideo, 6000);
-      done = true;
-    } else{
+    // if (event.data == YT.PlayerState.PLAYING && !done) {
+    //   setTimeout(stopVideo, 6000);
+    //   done = true;
+    // } else{
         var switcher = player.getPlayerState();
         switch(switcher) {
         case 0:                                                                 //Video has finished, request the id of the next queued video
@@ -61,9 +61,9 @@ function onPlayerStateChange(event) {
                 time: player.getCurrentTime()
             });
             break;
-        case 3:                                                                 //Client is playing video for the first time, treated like play from 0 to adjust for embed unloading
-            socket.emit('player-change', {
-                change: 1,
+        case 3:                                                                 //Client is playing video for the first time, causing odd feedback issues
+            socket.emit('player-change', {                                      //This was initially treated like play from 0 to adjust for embed unloading
+                change: 3,
                 time: player.getCurrentTime()
             });
             break;
@@ -74,7 +74,7 @@ function onPlayerStateChange(event) {
             break;
         default:
         
-         }
+        //  }
     }
 }
 
@@ -89,7 +89,8 @@ function pauseVideo(){
        
 function change(videoId){
     // alert("test")
-    player.destroy();
+    if(player)
+        player.destroy();
     player = new YT.Player('player', {
         height: '390',
         width: '640',
@@ -99,13 +100,14 @@ function change(videoId){
             'onStateChange': onPlayerStateChange
         }
     });
+    
 };
           
 function addQueue(url){
     var start = url.indexOf('=')+1 ;
     var end = url.indexOf('&');
     if(end == -1)
-        end = url.length - 1;
+        end = url.length;
     var id = url.slice(start, end);
     console.log(id);
     socket.emit('addQueue', id);
@@ -116,30 +118,53 @@ $('#test').on('click', function(){
    $('#next').val('')
 });
 
+$( document ).ready(function() {
+    socket.emit('connection');
+});
 
-
-socket.on('connect', function(){
-   console.log("connected to server"); 
+socket.on('current', function(id) {
+    if(id)
+        change(id);
 });
 
 socket.on('pause', function(time) {
-    if(player.getPlayerState() != 2){
-        player.pauseVideo();
-        player.seekTo(time, true);
+    if(player.getPlayerState != undefined){
+        if(player.getPlayerState() != 2){
+            player.pauseVideo();
+            player.seekTo(time, true);
+        }
     }
 })
 
 socket.on('play', function(time) {
-    if(player.getPlayerState() != 1 || (Math.abs(player.getCurrentTime()-time) >5)){
-        player.pauseVideo();
-        player.seekTo(time, true);
-        player.playVideo();
+    if(player.getPlayerState != undefined){
+        if(player.getPlayerState() != 1 || (Math.abs(player.getCurrentTime()-time) >3)){
+            player.pauseVideo();
+            player.seekTo(time, true);
+            player.playVideo();
+        }
     }
 })
 
 socket.on('next', function(videoId){
     if(videoId)
         change(videoId);
+});
+
+socket.on('update_list', function(list) {
+    var html = '<div class="list-group">';
+    if(!list)                                                                   //list is empty
+        html = '<li class="list-group-item active">No videos in the queue, try submitting one!</li>';
+    else{
+    for(var i = 0; i< list.length; i++){
+        if(i == 0)
+            html +=`<li class="list-group-item active"><h3>${list[i].title}</h3><img src="${list[i].img}" class="img-rounded" alt="Cinque Terre"></li>`
+        else
+            html +=`<li class="list-group-item"><h3>${list[i].title}</h3><img src="${list[i].img}" class="img-rounded" alt="Cinque Terre"></li>`
+    }
+    html += "</div>";
+    }
+    $("#queue_list").html(html);
 });
 
 
