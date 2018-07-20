@@ -144,9 +144,9 @@ socket.on('update_userlist', function (list) {
     else{
         for(var i = 0; i< list.length; i++){
             if(list[i] == active)
-                html +=`<li class="list-group-item active"><h3>${list[i]}</h3></li>`
+                html +=`<li class="list-group-item active"><h3 class="content-font">${list[i]}</h3></li>`
             else
-                html +=`<li class="list-group-item"><h3>${list[i]}</h3></li>`
+                html +=`<li class="list-group-item"><h3 class="content-font">${list[i]}</h3></li>`
         }
         html += "</div>";
     }
@@ -192,20 +192,21 @@ socket.on('update_list', function(list) {
             if(i == 0)
                 html +=`
                 <li class="list-group-item active">
-                    <h6>Currently watching:</h6>
+                    <h6 class="subtitle-font">Currently watching:</h6>
+                    <hr>
                     <div class="row">
                         <div class="col-lg-3 queue-item-col">
                             <img src="${list[i].img}" class="img-responsive img-rounded" alt="Cinque Terre">
                         </div>
                         <div class="col-lg-9 queue-item-col">
-                            <h3>${list[i].title}</h3>
+                            <h3 class="content-font" >${list[i].title}</h3>
                         </div>
                     </div>
                 </li>`
             else if(i == 1)
-                html +=`<li class="list-group-item"><h6>Up Next:</h6><div class="row"><div class="col-lg-3 queue-item-col"><img src="${list[i].img}" class="img-responsive img-rounded" alt="Cinque Terre"></div><div class="col-lg-9 queue-item-col"><h3>${list[i].title}</h3></div></div></li>`
+                html +=`<li class="list-group-item"><h6 class="subtitle-font">Up Next:</h6><hr class="up-next-hr"><div class="row"><div class="col-lg-3 queue-item-col"><img src="${list[i].img}" class="img-responsive img-rounded" alt="Cinque Terre"></div><div class="col-lg-9 queue-item-col"><h3 class="content-font">${list[i].title}</h3></div></div></li>`
             else
-                html +=`<li class="list-group-item"><div class="row"><div class="col-lg-3 queue-item-col"><img src="${list[i].img}" class="img-responsive img-rounded" alt="Cinque Terre"></div><div class="col-lg-9 queue-item-col"><h3>${list[i].title}</h3></div></div></li>`
+                html +=`<li class="list-group-item"><div class="row"><div class="col-lg-3 queue-item-col"><img src="${list[i].img}" class="img-responsive img-rounded" alt="Cinque Terre"></div><div class="col-lg-9 queue-item-col"><h3 class="content-font">${list[i].title}</h3></div></div></li>`
         }
     }
     html += "</div>";
