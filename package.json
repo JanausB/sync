@@ -14,7 +14,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "npm test",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "author": "Janaus",
   "license": "ISC"
